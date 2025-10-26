@@ -20,7 +20,7 @@ class BookLinkedList {
         this.head = null;
     }
 
-    // Add book to the end of list
+    // เพิ่มหนังสือในส่วนท้ายสุดของชุดข้อมูล
     add(book) {
         const newNode = new BookNode(
             book.id,
@@ -44,7 +44,7 @@ class BookLinkedList {
         current.next = newNode;
     }
 
-    // Find book by ID
+    // คนหาข้อมูลด้วยรหัส ID
     find(id) {
         const targetId = String(id);
         let current = this.head;
@@ -58,7 +58,7 @@ class BookLinkedList {
         return null;
     }
 
-    // Remove book by ID
+    // ลบหนังสือด้วยรหัส ID
     remove(id) {
         const targetId = String(id);
 
@@ -81,7 +81,6 @@ class BookLinkedList {
         return false;
     }
 
-    // Convert linked list to array
     toArray() {
         const result = [];
         let current = this.head;
@@ -101,7 +100,6 @@ class BookLinkedList {
         return result;
     }
 
-    // Get total count
     getSize() {
         let count = 0;
         let current = this.head;
@@ -112,7 +110,6 @@ class BookLinkedList {
         return count;
     }
 
-    // Clear all books
     clear() {
         this.head = null;
     }
