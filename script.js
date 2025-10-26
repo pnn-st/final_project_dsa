@@ -1,13 +1,6 @@
-// ==================================================
-// WINNIE BOOKING - LIBRARY MANAGEMENT SYSTEM
-// Complete JavaScript File
-// ==================================================
 
-// ==================================================
-// DATA STRUCTURES
-// ==================================================
 
-// Book node for linked list
+//กำหนด Node เพื่อใช้สำหรับสำหรับเก็บข้อมูลหนังสือแต่ละเล่มใน Linked List
 class BookNode {
     constructor(id, title, author, category, status = "Available", borrower = null, borrowDate = null) {
         this.id = id;
@@ -21,7 +14,7 @@ class BookNode {
     }
 }
 
-// Linked list for storing books (replaces array)
+// class BookLinkedList ใช้ในการเก็บหนังสือทั้งหมดในระบบแทน Array
 class BookLinkedList {
     constructor() {
         this.head = null;
@@ -125,7 +118,8 @@ class BookLinkedList {
     }
 }
 
-// Stack for recently added books
+// class BookStack ใช้ในการเก็บหนังสือที่เพิ่งเพิ่มล่าสุด โดยจะเก็บได้มากสุด 5 เล่ม
+// จะเเสดงในหน้า Add
 class BookStack {
     constructor() {
         this.items = [];
@@ -160,7 +154,7 @@ class BookStack {
     }
 }
 
-// Queue for borrowed books
+// class BorrowQueue ใช้เพื่อบันทึกหนังสือเล่มที่ถูกยืมอยู่ โดยจะเรียงสตามลำดับการยืม
 class BorrowQueue {
     constructor() {
         this.items = [];
@@ -199,7 +193,7 @@ class BorrowQueue {
     }
 }
 
-// Binary tree node for sorting
+// class TreeNode เป็นการกำหนด Node สำหรับใช้ใน Binary Search Tree
 class TreeNode {
     constructor(data, key) {
         this.data = data;
@@ -209,7 +203,7 @@ class TreeNode {
     }
 }
 
-// Binary search tree for sorting
+// class BinarySearchTree เป็นการใช้ Binary Tree ในการจัดเก็บข้อมูลโดยจะมีการเรียงลำดับโดยอัตโนมัติ ตาม key ที่ระบุ 
 class BinarySearchTree {
     constructor() {
         this.root = null;
@@ -271,7 +265,7 @@ class BinarySearchTree {
     }
 }
 
-// Tree sort function (replaces quick sort)
+// function treeSort เป็นการใช้ Binary Tree ในการจัดเรียงลำดับข้อมูลแทนของเก่าที่เป็น Quick Sort
 function treeSort(array, sortKey, ascending = true) {
     if (!Array.isArray(array) || array.length <= 1) {
         return array;
@@ -288,10 +282,6 @@ function treeSort(array, sortKey, ascending = true) {
     return ascending ? sorted : sorted.reverse();
 }
 
-// ==================================================
-// GLOBAL VARIABLES
-// ==================================================
-
 const booksList = new BookLinkedList();
 const recentlyAdded = new BookStack();
 const borrowQueue = new BorrowQueue();
@@ -302,11 +292,9 @@ const STORAGE_KEYS = {
     recentBooks: "winnie_library_recent_books"
 };
 
-// ==================================================
-// UTILITY FUNCTIONS
-// ==================================================
+// ฟังชันช่วยเหลือต่างๆ
 
-// Get category name from code
+// function getCategoryName เป็นการแปลงรหัสหมวดหมู่หนังสือเป็นชื่อหมวดหมู่
 function getCategoryName(categoryCode) {
     const categories = {
         "01": "Fiction", "02": "Romance", "03": "Mystery", "04": "Fantasy",
@@ -318,7 +306,7 @@ function getCategoryName(categoryCode) {
     return categories[code] || "Unknown";
 }
 
-// Get category code from name
+// function getCategoryCodeFromName เป็นการแปลงชื่อหมวดหมู่หนังสือเป็นรหัสหมวดหมู่
 function getCategoryCodeFromName(categoryName) {
     const categoryMap = {
         "Fiction": "01", "Romance": "02", "Mystery": "03", "Fantasy": "04",
@@ -329,7 +317,7 @@ function getCategoryCodeFromName(categoryName) {
     return categoryMap[categoryName] || null;
 }
 
-// Generate unique book ID
+// function generateBookId เป็นการสร้างรหัสหนังสือใหม่โดยอิงจากหมวดหมู่และจำนวนหนังสือในหมวดนั้น
 function generateBookId(categoryCode) {
     const category = String(categoryCode).padStart(2, "0");
 
@@ -347,7 +335,7 @@ function generateBookId(categoryCode) {
     return `${category}${runningNumber}`;
 }
 
-// Show notification
+// function showNotification เป็นการแสดงข้อความแจ้งเตือนบนหน้าจอ
 function showNotification(message, type = "success") {
     const container = document.getElementById("toast-container") || document.body;
     const notification = document.createElement("div");
@@ -383,12 +371,12 @@ function showNotification(message, type = "success") {
     }, 3000);
 }
 
-// Navigation helper
+// Navigation  เป็นการเปลี่ยนหน้า
 function navigateTo(page) {
     window.location.href = page;
 }
 
-// Get current page
+// function getCurrentPage เป็นการดึงชื่อหน้าปัจจุบัน
 function getCurrentPage() {
     const path = window.location.pathname;
     if (path.includes("borrow.html")) return "borrow";
@@ -397,7 +385,7 @@ function getCurrentPage() {
     return "index";
 }
 
-// Format date
+// function formatDate เป็นการแปลงวันที่ให้อยู่ในรูปแบบที่อ่านง่าย
 function formatDate(dateString) {
     if (!dateString) return "-";
     const date = new Date(dateString);
@@ -405,10 +393,7 @@ function formatDate(dateString) {
     return date.toLocaleDateString('en-US', options);
 }
 
-// ==================================================
-// STORAGE FUNCTIONS
-// ==================================================
-
+// ฟังชันสำหรับบันทึกและโหลดข้อมูลจาก localStorage
 // Save to localStorage
 function saveToStorage() {
     try {
@@ -449,11 +434,8 @@ function loadFromStorage() {
     }
 }
 
-// ==================================================
-// CORE FUNCTIONS
-// ==================================================
 
-// Add new book
+// function addBook เป็นการเพิ่มหนังสือใหม่
 function addBook(event) {
     if (event) event.preventDefault();
 
@@ -495,7 +477,7 @@ function addBook(event) {
     updateStats();
 }
 
-// Delete book
+// function deleteBook เป็นการลบหนังสือ
 function deleteBook(bookId) {
     if (!confirm("Are you sure you want to delete this book?")) {
         return;
@@ -517,8 +499,7 @@ function deleteBook(bookId) {
         showNotification("Failed to delete book!", "error");
     }
 }
-
-// Borrow book
+// function borrowBook เป็นการยืมหนังสือ
 function borrowBook(bookId) {
     const borrowerName = prompt("Enter borrower name:");
 
@@ -558,7 +539,7 @@ function borrowBook(bookId) {
     updateStats();
 }
 
-// Return book
+// function returnBook เป็นการคืนหนังสือ
 function returnBook(bookId) {
     const book = booksList.find(bookId);
 
@@ -583,11 +564,8 @@ function returnBook(bookId) {
     updateStats();
 }
 
-// ==================================================
-// DISPLAY FUNCTIONS
-// ==================================================
 
-// Display all books (index page)
+// function displayBooks เป็นการแสดงรายการหนังสือทั้งหมด (หน้า index)
 function displayBooks() {
     const tbody = document.getElementById("list-body");
     if (!tbody) return;
@@ -639,7 +617,7 @@ function displayBooks() {
     updateStats();
 }
 
-// Display available books (borrow page)
+// function displayAvailableBooks เป็นการแสดงรายการหนังสือที่มีอยู่ (หน้า ยืมหนังสือ)
 function displayAvailableBooks() {
     const tbody = document.getElementById("list-body");
     if (!tbody) return;
@@ -680,7 +658,7 @@ function displayAvailableBooks() {
     });
 }
 
-// Display borrowed books (return page)
+// function displayBorrowedBooks เป็นการแสดงรายการหนังสือที่ถูกยืมอยู่ (หน้า คืนหนังสือ)
 function displayBorrowedBooks() {
     const tbody = document.getElementById("return-tbody");
     if (!tbody) return;
@@ -722,7 +700,7 @@ function displayBorrowedBooks() {
     });
 }
 
-// Display filtered books (after search/sort on index page)
+// function displayFilteredBooks เป็นการแสดงรายการหนังสือที่ค้นหาหรือจัดเรียงแล้ว (หน้า index)
 function displayFilteredBooks(books) {
     const tbody = document.getElementById("list-body");
     if (!tbody) return;
@@ -770,7 +748,7 @@ function displayFilteredBooks(books) {
     });
 }
 
-// Display filtered available books (after search/sort on borrow page)
+// function displayFilteredBooksForBorrow เป็นการแสดงรายการหนังสือที่ค้นหาหรือจัดเรียงแล้ว (หน้า ยืมหนังสือ)
 function displayFilteredBooksForBorrow(books) {
     const tbody = document.getElementById("list-body");
     if (!tbody) return;
@@ -808,7 +786,7 @@ function displayFilteredBooksForBorrow(books) {
     });
 }
 
-// Display filtered borrowed books (after search/sort on return page)
+// function displayFilteredBooksForReturn เป็นการแสดงรายการหนังสือที่ค้นหาหรือจัดเรียงแล้ว (หน้า คืนหนังสือ)
 function displayFilteredBooksForReturn(items) {
     const tbody = document.getElementById("return-tbody");
     if (!tbody) return;
